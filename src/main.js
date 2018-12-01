@@ -12,6 +12,10 @@ import login from './components/login.vue'
 import payMoney from './components/payMoney.vue'
 import paySuccess from './components/paySuccess.vue'
 import vipCenter from './components/vipCenter.vue'
+import vipCenterIndex from './components/vipCenterIndex.vue'
+import vipCenterList from './components/vipCenterList.vue'
+import vipCenterDetail from './components/vipCenterDetail.vue'
+
 
 import VueRouter from 'vue-router'
 import axios from "axios";
@@ -36,49 +40,87 @@ const routes = [
   { path: '/', redirect: 'index' },
   { path: '/index', component: index },
   {
-    path: '/detail/:artID', 
+    path: '/detail/:artID',
     component: detail
   },
-  { 
-    path: '/shopCart', 
+  {
+    path: '/shopCart',
     component: shopCart
   },
-  { 
-    path: '/order/:ids', 
+  {
+    path: '/order/:ids',
     component: order,
-    meta:{
-      checkLogin:true
+    meta: {
+      checkLogin: true
     }
   },
   { path: '/login', component: login },
   {
-    path: '/payMoney/:orderId', 
-    component: payMoney, 
+    path: '/payMoney/:orderId',
+    component: payMoney,
     meta: {
-      checkLogin:true
+      checkLogin: true
     }
   },
   {
-    path: '/paySuccess', 
-    component: paySuccess, 
+    path: '/paySuccess',
+    component: paySuccess,
     meta: {
-      checkLogin:true
+      checkLogin: true
     }
   },
   {
-    path: '/vipCenter', 
-    component: vipCenter, 
+    path: '/vipCenter',
+    component: vipCenter,
     meta: {
-      // checkLogin:true
-    }
+      checkLogin: true
+    },
+    children: [
+      {
+        path: '',
+        redirect: 'index',
+        meta: {
+          checkLogin: true
+        }
+      },
+      {
+        path: 'index',
+        component: vipCenterIndex,
+        meta: {
+          checkLogin: true,
+          currentName: '中心首页'
+        }
+      },
+      {
+        path:'vipCenterList',
+        component:vipCenterList,
+        meta:{
+          checkLogin:true,
+          currentName:'订单列表'
+        }
+      },
+      {
+        path:'vipCenterDetail/:orderId',
+        component:vipCenterDetail,
+        meta:{
+          checkLogin:true,
+          currentName:'订单详情'
+        }
+      }
+    ]
   }
 ]
 
 const router = new VueRouter({
+  mode: 'history',
+  scrollBehavior(to, from, savedPosition) {
+    // return 期望滚动到哪个的位置
+    return { x: 0, y: 0 }
+  },
   routes // (缩写) 相当于 routes: routes
 })
 router.beforeEach((to, from, next) => {
-  if (to.meta.checkLogin==true) {
+  if (to.meta.checkLogin == true) {
     // 正要去订单页
     // 必须先判断登录
     axios.get("site/account/islogin").then(result => {
@@ -106,6 +148,9 @@ Vue.filter("shortTime", value => {
 });
 Vue.filter("longTime", value => {
   return moment(value).format("YYYY/MM/DD HH:mm:ss");
+})
+Vue.filter("addSmile",(value,smileType)=>{
+  return value+smileType;
 })
 
 const store = new Vuex.Store({
