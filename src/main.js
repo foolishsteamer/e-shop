@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 
-Vue.config.productionTip = false
+// Vue.config.productionTip = false
 
 import "./assets/site/css/style.css"
 import index from "./components/index.vue"
@@ -9,6 +9,9 @@ import detail from './components/detail.vue'
 import shopCart from './components/shopCart.vue'
 import order from './components/order.vue'
 import login from './components/login.vue'
+import payMoney from './components/payMoney.vue'
+import paySuccess from './components/paySuccess.vue'
+import vipCenter from './components/vipCenter.vue'
 
 import VueRouter from 'vue-router'
 import axios from "axios";
@@ -32,21 +35,53 @@ axios.defaults.withCredentials = true; //让ajax携带cookie
 const routes = [
   { path: '/', redirect: 'index' },
   { path: '/index', component: index },
-  { path: '/detail/:artID', component: detail },
-  { path: '/shopCart', component: shopCart },
-  { path: '/order/:ids', component: order },
-  { path: '/login', component: login }
+  {
+    path: '/detail/:artID', 
+    component: detail
+  },
+  { 
+    path: '/shopCart', 
+    component: shopCart
+  },
+  { 
+    path: '/order/:ids', 
+    component: order,
+    meta:{
+      checkLogin:true
+    }
+  },
+  { path: '/login', component: login },
+  {
+    path: '/payMoney/:orderId', 
+    component: payMoney, 
+    meta: {
+      checkLogin:true
+    }
+  },
+  {
+    path: '/paySuccess', 
+    component: paySuccess, 
+    meta: {
+      checkLogin:true
+    }
+  },
+  {
+    path: '/vipCenter', 
+    component: vipCenter, 
+    meta: {
+      // checkLogin:true
+    }
+  }
 ]
 
 const router = new VueRouter({
   routes // (缩写) 相当于 routes: routes
 })
 router.beforeEach((to, from, next) => {
-  if (to.path.indexOf('/order') != -1) {
+  if (to.meta.checkLogin==true) {
     // 正要去订单页
     // 必须先判断登录
     axios.get("site/account/islogin").then(result => {
-      console.log(result);
       if (result.data.code == "nologin") {
         // 提示用户
         Vue.prototype.$Message.warning("请先登录");
@@ -103,6 +138,14 @@ const store = new Vuex.Store({
     },
     changeLogin(state) {
       state.isLogin = !state.isLogin;
+    },
+    delGoodsById(state, id) {
+      // 根据id 删除state中的数据
+      // delete state.cartData[id];
+      // delete 删除的属性 Vue无法跟踪
+      // 参数1 对象 参数2 删除的属性
+      // 必须使用Vue.delete才可以同步更新视图
+      Vue.delete(state.cartData, id);
     }
   }
 })
