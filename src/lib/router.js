@@ -1,31 +1,31 @@
-import index from "../components/index.vue"
-import detail from '../components/detail.vue'
-import shopCart from '../components/shopCart.vue'
-import order from '../components/order.vue'
-import login from '../components/login.vue'
-import payMoney from '../components/payMoney.vue'
-import paySuccess from '../components/paySuccess.vue'
-import vipCenter from '../components/vipCenter.vue'
-import vipCenterIndex from '../components/vipCenterIndex.vue'
-import vipCenterList from '../components/vipCenterList.vue'
-import vipCenterDetail from '../components/vipCenterDetail.vue'
+// import index from "../components/index.vue"
+// import detail from '../components/detail.vue'
+// import shopCart from '../components/shopCart.vue'
+// import order from '../components/order.vue'
+// import login from '../components/login.vue'
+// import payMoney from '../components/payMoney.vue'
+// import paySuccess from '../components/paySuccess.vue'
+// import vipCenter from '../components/vipCenter.vue'
+// import vipCenterIndex from '../components/vipCenterIndex.vue'
+// import vipCenterList from '../components/vipCenterList.vue'
+// import vipCenterDetail from '../components/vipCenterDetail.vue'
 
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 Vue.use(VueRouter);
 
-// const index = () => import("../components/index.vue")
-// const detail = () => import('../components/detail.vue')
-// const shopCart = () => import('../components/shopCart.vue')
-// const order = () => import('../components/order.vue')
-// const login = () => import('../components/login.vue')
-// const payMoney = () => import('../components/payMoney.vue')
-// const paySuccess = () => import('../components/paySuccess.vue')
-// const vipCenter = () => import('../components/vipCenter.vue')
-// const vipCenterIndex = () => import('../components/vipCenterIndex.vue')
-// const vipCenterList = () => import('../components/vipCenterList.vue')
-// const vipCenterDetail = () => import('../components/vipCenterDetail.vue')
+const index = () => import("../components/index.vue")
+const detail = () => import('../components/detail.vue')
+const shopCart = () => import('../components/shopCart.vue')
+const order = () => import('../components/order.vue')
+const login = () => import('../components/login.vue')
+const payMoney = () => import('../components/payMoney.vue')
+const paySuccess = () => import('../components/paySuccess.vue')
+const vipCenter = () => import('../components/vipCenter.vue')
+const vipCenterIndex = () => import('../components/vipCenterIndex.vue')
+const vipCenterList = () => import('../components/vipCenterList.vue')
+const vipCenterDetail = () => import('../components/vipCenterDetail.vue')
 
 const routes = [
     { path: '/', redirect: 'index' },
