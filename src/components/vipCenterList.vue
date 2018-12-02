@@ -78,7 +78,7 @@ export default {
   data: function() {
     return {
       pageIndex: 1,
-      pageSize: 20,
+      pageSize: 5,
       orderList: {},
       totalcount: 0
     };
